@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.LinkedHashMap; // Import para sa counting
+import java.util.Map;         
 
 public class Main {
     public static void main(String[] args) {
@@ -13,32 +15,33 @@ public class Main {
 
         System.out.println("--------------------------------------------------------------------------");
 
-        int laptop16 = 0, laptop32 = 0, phone50 = 0;
+        
+        Map<String, Integer> summary = new LinkedHashMap<>();
 
         for (Hardware h : list) {
 
             System.out.printf("%-3d %-20s %-5d %-10s %-25s\n",
-                    h.getId(),
-                    h.getBrand(),
-                    h.getSpec(),
-                    h.getType(),
+                    h.getId(), 
+                    h.getBrand(), 
+                    h.getSpec(), 
+                    h.getType(), 
                     h.interpretSpec()
             );
 
-            // Polymorphic counting
-            if (h instanceof Laptop) {
-                if (h.getSpec() == 16) laptop16++;
-                if (h.getSpec() == 32) laptop32++;
-            }
 
-            if (h instanceof Phone) {
-                if (h.getSpec() == 50) phone50++;
+            if (h instanceof Laptop) {
+                String key = "Laptop (" + h.interpretSpec() + ")"; 
+                summary.put(key, summary.getOrDefault(key, 0) + 1);
+            } else if (h instanceof Phone) {
+                String key = "Phone (" + h.interpretSpec() + ")";
+                summary.put(key, summary.getOrDefault(key, 0) + 1);
             }
         }
 
         System.out.println("\n=== Inventory Summary ===");
-        System.out.println("16GB Laptops: " + laptop16);
-        System.out.println("32GB Laptops: " + laptop32);
-        System.out.println("50MP Phones: " + phone50);
+
+        for (Map.Entry<String, Integer> entry : summary.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 }
