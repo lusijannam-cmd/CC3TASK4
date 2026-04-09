@@ -10,8 +10,8 @@ public class Main {
 
         Hardware.Builder builder = new Hardware.Builder()
                 .setBrand("Oppo Reno 8 Pro")
-                .setSpec(128) 
-                .setType("Phone");
+                .setSpec(128);
+               
 
         Hardware newPhone = new Phone(builder);
 
