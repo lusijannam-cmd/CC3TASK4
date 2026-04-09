@@ -2,13 +2,12 @@ class Hardware {
     private int id;
     private String brand;
     private int spec;
-    private String type;
+    protected String type;
 
     protected Hardware(Builder builder) {
         this.id = builder.id;
         this.brand = builder.brand;
         this.spec = builder.spec;
-        this.type = builder.type;
     }
 
     public int getId() { return id; }
@@ -41,10 +40,6 @@ class Hardware {
             return this;
         }
 
-        public Builder setType(String type) {
-            this.type = type;
-            return this;
-        }
 
         public Hardware build() {
             return new Hardware(this);

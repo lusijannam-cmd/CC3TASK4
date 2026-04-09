@@ -43,12 +43,14 @@ class HardwareRepository {
                 Hardware.Builder builder = new Hardware.Builder()
                         .setId(id)
                         .setBrand(brand)
-                        .setSpec(spec)
-                        .setType(type);
+                        .setSpec(spec);
 
-                if (type.equalsIgnoreCase("Laptop")) {
+               if (type != null && type.equalsIgnoreCase("Laptop")) {
                     list.add(new Laptop(builder));
+                } else if (type != null && type.equalsIgnoreCase("Phone")) {
+                    list.add(new Phone(builder));
                 } else {
+                    // fallback (optional)
                     list.add(new Phone(builder));
                 }
             }
