@@ -50,4 +50,6 @@ class Hardware {
             return new Hardware(this);
         }
     }
+
+    
 }
