@@ -9,7 +9,7 @@ class HardwareRepository {
     public void addHardware(Hardware hardware) {
         String sql = "INSERT INTO hardware (brand, spec, type) VALUES (?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, hardware.getBrand());
             pstmt.setInt(2, hardware.getSpec());
@@ -27,17 +27,17 @@ class HardwareRepository {
         String sql = "SELECT * FROM hardware ORDER BY id ASC"; 
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
 
             int sequenceCounter = 1;
 
             while (rs.next()) {
                 Hardware.Builder builder = new Hardware.Builder()
-              
+        
                         .setId(sequenceCounter++) 
                         
-                      
+
                         
                         .setBrand(rs.getString("brand"))
                         .setSpec(rs.getInt("spec"))
