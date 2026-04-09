@@ -2,50 +2,47 @@ import java.sql.*;
 import java.util.ArrayList;
 
 class HardwareRepository {
-
     private final String URL = "jdbc:mysql://localhost:3306/hardware_db";
     private final String USER = "root";
     private final String PASS = "Gomer*1203";
 
-    // --- DITO MO SIYA ISISINGIT (BAGO O PAGKATAPOS NG getAllHardware) ---
     public void addHardware(Hardware hardware) {
         String sql = "INSERT INTO hardware (brand, spec, type) VALUES (?, ?, ?)";
-
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, hardware.getBrand());
             pstmt.setInt(2, hardware.getSpec());
             pstmt.setString(3, hardware.getType());
-
             pstmt.executeUpdate();
-            System.out.println("Success: Na-add na ang bagong specs!");
+            System.out.println(">>> System: Saved " + hardware.getBrand());
 
         } catch (SQLException e) {
-            System.out.println("Error sa pag-add: " + e.getMessage());
+            System.out.println(">>> SQL Error (Add): " + e.getMessage());
         }
     }
 
     public ArrayList<Hardware> getAllHardware() {
         ArrayList<Hardware> list = new ArrayList<>();
+        String sql = "SELECT * FROM hardware ORDER BY id ASC";
 
-        try {
-            Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM hardware");
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+   int sequenceCounter = 1;
+         
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String brand = rs.getString("brand");
-                int spec = rs.getInt("spec");
+                Hardware.Builder builder = new Hardware.Builder()
+
+                        .setId(sequenceCounter++)
+
+                        .setBrand(rs.getString("brand"))
+                        .setSpec(rs.getInt("spec"));
+
                 String type = rs.getString("type");
 
-                Hardware.Builder builder = new Hardware.Builder()
-                        .setId(id)
-                        .setBrand(brand)
-                        .setSpec(spec);
-
-               if (type != null && type.equalsIgnoreCase("Laptop")) {
+                if (type != null && type.equalsIgnoreCase("Laptop")) {
                     list.add(new Laptop(builder));
                 } else if (type != null && type.equalsIgnoreCase("Phone")) {
                     list.add(new Phone(builder));
@@ -54,12 +51,9 @@ class HardwareRepository {
                     list.add(new Phone(builder));
                 }
             }
-
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(">>> SQL Error (Get): " + e.getMessage());
         }
-
         return list;
     }
 }

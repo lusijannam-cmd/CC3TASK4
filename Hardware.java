@@ -10,10 +10,21 @@ class Hardware {
         this.spec = builder.spec;
     }
 
-    public int getId() { return id; }
-    public String getBrand() { return brand; }
-    public int getSpec() { return spec; }
-    public String getType() { return type; }
+    public int getId() {
+        return id;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public int getSpec() {
+        return spec;
+    }
+
+    public String getType() {
+        return type;
+    }
 
     public String interpretSpec() {
         return spec + " units";
@@ -45,6 +56,4 @@ class Hardware {
             return new Hardware(this);
         }
     }
-
-    
 }
