@@ -6,25 +6,25 @@ public class Main {
     public static void main(String[] args) {
 
         HardwareRepository repo = new HardwareRepository();
-        boolean shouldSave = false;
+        boolean shouldSave = true;
 
         Hardware.Builder builder = new Hardware.Builder()
-                .setBrand("Oppo Reno 8 Pro")
-                .setSpec(128);
-               
+                .setBrand("Acer nirvana")
+                .setSpec(228) ;
+        
 
-        Hardware newPhone = new Phone(builder);
+        Hardware newLaptop = new Laptop(builder);
 
         if (shouldSave) {
-    repo.addHardware(newPhone);
+    repo.addHardware(newLaptop);
 } else {
-    System.out.println("Skipped: Naka-placeholder lang muna, hindi sinave sa database.");
+    System.out.println("");
 }
+    
 
-       
         ArrayList<Hardware> list = repo.getAllHardware();
 
-   
+
         System.out.println("\n=== Hardware Masterlist ===\n");
         System.out.printf("%-3s %-20s %-5s %-10s %-25s\n",
                 "ID", "Brand", "Spec", "Type", "Expected Interpretation");
@@ -33,21 +33,23 @@ public class Main {
         Map<String, Integer> summary = new LinkedHashMap<>();
 
         for (Hardware h : list) {
-         
+        
             System.out.printf("%-3d %-20s %-5d %-10s %-25s\n",
-                    h.getId(), 
-                    h.getBrand(), 
-                    h.getSpec(), 
-                    h.getType(), 
+                    h.getId(),
+                    h.getBrand(),
+                    h.getSpec(),
+                    h.getType(),
                     h.interpretSpec()
+                    
             );
 
-           
+        
             String key = h.getType() + " (" + h.interpretSpec() + ")";
             summary.put(key, summary.getOrDefault(key, 0) + 1);
+
         }
 
-     
+    
 System.out.println("\n=== Inventory Summary ===");
 
 

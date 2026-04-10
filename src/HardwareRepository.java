@@ -9,7 +9,7 @@ class HardwareRepository {
     public void addHardware(Hardware hardware) {
         String sql = "INSERT INTO hardware (brand, spec, type) VALUES (?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, hardware.getBrand());
             pstmt.setInt(2, hardware.getSpec());
@@ -27,10 +27,11 @@ class HardwareRepository {
         String sql = "SELECT * FROM hardware ORDER BY id ASC";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)) {
-
-            int sequenceCounter = 1;
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            
+                    int sequenceCounter = 1;
+        
 
             while (rs.next()) {
                 Hardware.Builder builder = new Hardware.Builder()
@@ -42,9 +43,7 @@ class HardwareRepository {
 
                 String type = rs.getString("type");
 
-            if (type != null && type.equalsIgnoreCase("Laptop"))
-
-                if (rs.getString("type").equalsIgnoreCase("Laptop")) {
+                if (type != null && type.equalsIgnoreCase("Laptop")) {
                     list.add(new Laptop(builder));
                 } else if (type != null && type.equalsIgnoreCase("Phone")) {
                     list.add(new Phone(builder));
