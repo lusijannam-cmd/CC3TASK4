@@ -24,7 +24,7 @@ class HardwareRepository {
 
     public ArrayList<Hardware> getAllHardware() {
         ArrayList<Hardware> list = new ArrayList<>();
-        String sql = "SELECT * FROM hardware ORDER BY id ASC"; 
+        String sql = "SELECT * FROM hardware ORDER BY id ASC";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
             Statement stmt = conn.createStatement();
@@ -34,19 +34,15 @@ class HardwareRepository {
 
             while (rs.next()) {
                 Hardware.Builder builder = new Hardware.Builder()
-                        .setId(id)
-                        .setBrand(brand)
-                        .setSpec(spec);
 
-               if (type != null && type.equalsIgnoreCase("Laptop")) {
-            
-                        .setId(sequenceCounter++) 
-                        
-                    
-                        
+                        .setId(sequenceCounter++)
+
                         .setBrand(rs.getString("brand"))
-                        .setSpec(rs.getInt("spec"))
-                        .setType(rs.getString("type"));
+                        .setSpec(rs.getInt("spec"));
+
+                String type = rs.getString("type");
+
+            if (type != null && type.equalsIgnoreCase("Laptop"))
 
                 if (rs.getString("type").equalsIgnoreCase("Laptop")) {
                     list.add(new Laptop(builder));
