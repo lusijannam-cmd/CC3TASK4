@@ -1,11 +1,10 @@
 class Phone extends Hardware {
-
-    public Phone(Builder builder) {
-        super(builder);
+    public Phone(int id, String brand, int spec) {
+        super(id, brand, spec);
     }
 
     @Override
     public String interpretSpec() {
-        return getSpec() + " Megapixels";
+        return spec + " Megapixels";
     }
 }
