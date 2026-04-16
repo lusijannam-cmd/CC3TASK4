@@ -1,6 +1,8 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
+<<<<<<< HEAD
 class HardwareRepository {
     private final String URL = "jdbc:mysql://localhost:3306/hardware_db";
     private final String USER = "root";
@@ -32,21 +34,26 @@ class HardwareRepository {
         String sql = "SELECT * FROM hardware ORDER BY id ASC";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
+=======
+public class HardwareRepository {
+    private String url = "jdbc:mysql://localhost:3306/hardware_db";
+    private String user = "root";
+    private String pass = "Gomer*1203";
+
+    public List<Hardware> getAllHardware() {
+        List<Hardware> list = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+>>>>>>> bbef75d (updated)
                 Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-   int sequenceCounter = 1;
-         
+                ResultSet rs = stmt.executeQuery("SELECT * FROM hardware")) {
 
             while (rs.next()) {
-                Hardware.Builder builder = new Hardware.Builder()
-
-                        .setId(sequenceCounter++)
-
-                        .setBrand(rs.getString("brand"))
-                        .setSpec(rs.getInt("spec"));
-
+                int id = rs.getInt("id");
+                String brand = rs.getString("brand");
+                int spec = rs.getInt("spec");
                 String type = rs.getString("type");
 
+<<<<<<< HEAD
                 if (type != null && type.equalsIgnoreCase("Laptop")) {
 =======
         String sql = "SELECT * FROM hardware ORDER BY id ASC"; 
@@ -81,10 +88,16 @@ class HardwareRepository {
                 } else {
                     // fallback (optional)
                     list.add(new Phone(builder));
+=======
+                if ("Laptop".equalsIgnoreCase(type)) {
+                    list.add(new Laptop(id, brand, spec));
+                } else if ("Phone".equalsIgnoreCase(type)) {
+                    list.add(new Phone(id, brand, spec));
+>>>>>>> bbef75d (updated)
                 }
             }
         } catch (SQLException e) {
-            System.out.println(">>> SQL Error (Get): " + e.getMessage());
+            e.printStackTrace();
         }
         return list;
     }

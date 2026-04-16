@@ -1,11 +1,9 @@
-import java.util.ArrayList;
-import java.util.LinkedHashMap; 
-import java.util.Map;         
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-
         HardwareRepository repo = new HardwareRepository();
+<<<<<<< HEAD
         boolean shouldSave = true;
 
         Hardware.Builder builder = new Hardware.Builder()
@@ -46,24 +44,43 @@ public class Main {
            
             String key = h.getType() + " (" + h.interpretSpec() + ")";
             summary.put(key, summary.getOrDefault(key, 0) + 1);
+=======
+        List<Hardware> masterList = repo.getAllHardware();
+>>>>>>> bbef75d (updated)
 
+        // 1. Prints Hardware Masterlist
+        System.out.println("ID\tBrand\t\tInterpretation");
+        System.out.println("---------------------------------------");
+        for (Hardware h : masterList) {
+            System.out.println(h.getId() + "\t" + h.getBrand() + "\t\t" + h.interpretSpec());
         }
 
-     
-System.out.println("\n=== Inventory Summary ===");
+        System.out.println("\n--- Laptop and Phone Inventory ---");
 
 
-for (Map.Entry<String, Integer> entry : summary.entrySet()) {
-    if (entry.getKey().startsWith("Laptop")) {
-        System.out.println(entry.getKey() + ": " + entry.getValue());
-    }
-}
+        String countedSpecs = "";
+
+        for (Hardware h : masterList) {
+
+            String currentLabel = h.getSpec() + (h instanceof Laptop ? "GB Laptop" : "MP Phone");
+
+            if (!countedSpecs.contains(currentLabel)) {
+                int count = 0;
 
 
-for (Map.Entry<String, Integer> entry : summary.entrySet()) {
-    if (entry.getKey().startsWith("Phone")) {
-        System.out.println(entry.getKey() + ": " + entry.getValue());
-    }
-}
+                for (Hardware search : masterList) {
+                    String searchLabel = search.getSpec() + (search instanceof Laptop ? "GB Laptop" : "MP Phone");
+                    if (currentLabel.equals(searchLabel)) {
+                        count++;
+                    }
+                }
+
+
+                System.out.println("Total number of " + currentLabel + "s: " + count);
+
+
+                countedSpecs += currentLabel + ",";
+            }
+        }
     }
 }
